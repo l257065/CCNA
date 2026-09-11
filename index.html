@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>CCNA 200-301 考照練習</title>
+<!--
+  選擇入口頁。這一頁**沒有密碼、也不需要**——它只是兩個連結，不含任何題目內容。
+  題目在兩份練習頁裡，那兩份是加密的（見 README.md）。
+
+  與 Azure 那組不同：這兩份**各有各的密碼**，所以不共用 sessionStorage 的鑰匙
+  （key 分別是 ccna_pcschool / ccna_examtopics）。解鎖一份不會連帶解開另一份。
+-->
+<style>
+ :root{color-scheme:dark}
+ *{box-sizing:border-box}
+ body{margin:0;min-height:100vh;display:grid;place-items:center;padding:1.5rem;
+      font:16px/1.6 system-ui,"Noto Sans TC",sans-serif;background:#0f172a;color:#e2e8f0}
+ .box{width:min(94vw,46rem)}
+ h1{margin:0 0 .3rem;font-size:1.45rem;letter-spacing:.02em}
+ .lede{margin:0 0 1.75rem;color:#94a3b8;font-size:.92rem}
+ .grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(17rem,1fr))}
+ a.card{display:block;padding:1.4rem 1.5rem;border-radius:14px;text-decoration:none;
+        background:#1e293b;color:inherit;border:1px solid #334155;
+        transition:transform .12s ease,border-color .12s ease,background .12s ease}
+ a.card:hover{transform:translateY(-2px);border-color:#2563eb;background:#22304a}
+ .code{font-size:1.3rem;font-weight:700;letter-spacing:.03em}
+ .name{margin-top:.15rem;color:#cbd5e1;font-size:.95rem}
+ .meta{margin-top:.9rem;color:#94a3b8;font-size:.82rem}
+ .feat{margin:.55rem 0 0;padding-left:1.05rem;color:#94a3b8;font-size:.8rem;line-height:1.75}
+ .lock{display:inline-block;margin-top:.9rem;padding:.12rem .55rem;border-radius:999px;
+       border:1px solid #475569;color:#94a3b8;font-size:.75rem}
+ footer{margin-top:1.75rem;color:#64748b;font-size:.8rem;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="box">
+  <h1>CCNA 200-301 考照練習</h1>
+  <p class="lede">兩份題庫各自獨立，各有各的密碼。選一份開始。</p>
+
+  <div class="grid">
+    <a class="card" href="pcschool/pcschool-practice.html">
+      <div class="code">巨匠題庫</div>
+      <div class="name">PC School CCNA</div>
+      <div class="meta">1194 題</div>
+      <ul class="feat">
+        <li>471 張拓撲圖重繪為向量圖，文字可選取</li>
+        <li>CLI 實作題模擬器，可直接敲指令</li>
+        <li>錯題本、標記、進度續作</li>
+      </ul>
+      <span class="lock">🔒 需要密碼</span>
+    </a>
+
+    <a class="card" href="examtopics/examtopics-practice.html">
+      <div class="code">ExamTopics</div>
+      <div class="name">200-301 社群題庫</div>
+      <div class="meta">1395 題（選擇 1240、拖曳 155）</div>
+      <ul class="feat">
+        <li>繁中翻譯 100%，中英對照可切換</li>
+        <li>12896 則社群討論留言，全部翻譯</li>
+        <li>模擬考、爭議題篩選、歷次成績</li>
+      </ul>
+      <span class="lock">🔒 需要密碼</span>
+    </a>
+  </div>
+
+  <footer>
+    兩份都是單檔離線可用，解鎖後不需要連線（圖片除外）。<br>
+    解鎖狀態只留到分頁關閉；重新整理同一份不用再輸入，換另一份要輸入該份自己的密碼。
+  </footer>
+</div>
+</body>
+</html>

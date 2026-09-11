@@ -1,0 +1,7 @@
+Thumbs.db
+
+# 明文圖片不准進公開 repo（圖片一律是 <網站>/a/*.bin 密文，見私有 repo 的 DEPLOY.md）
+pcschool/images/
+pcschool/images-svg/
+pcschool/images-hires/
+examtopics/images/
