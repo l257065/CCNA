@@ -6,11 +6,15 @@
 <meta name="robots" content="noindex,nofollow">
 <title>CCNA 200-301 考照練習</title>
 <!--
-  選擇入口頁。這一頁**沒有密碼、也不需要**——它只是兩個連結，不含任何題目內容。
-  題目在兩份練習頁裡，那兩份是加密的（見 README.md）。
+  選擇入口頁。這一頁本身不含任何題目內容，題目在各份練習頁裡，那些是加密的（見 README.md）。
 
-  與 Azure 那組不同：這兩份**各有各的密碼**，所以不共用 sessionStorage 的鑰匙
-  （key 分別是 ccna_pcschool / ccna_examtopics）。解鎖一份不會連帶解開另一份。
+  兩種進法：
+  ・點卡片：進到那一份，再輸入那一份的密碼。
+  ・直接在上面的密碼框輸入：會帶你到那組密碼對應的頁面，而且到了就已經解鎖、不用再打一次。
+    做法是每個目的地一張「驗證票」（用該處密碼加密的 {網址, 解鎖狀態的鑰匙名}），
+    輸入的密碼試解得開哪一張，就去哪裡。票裡的網址也是密文。
+
+  各份各有各的密碼，sessionStorage 的鑰匙也各自獨立，解鎖一份不會連帶解開另一份。
 -->
 <style>
  :root{color-scheme:dark}
@@ -19,7 +23,16 @@
       font:16px/1.6 system-ui,"Noto Sans TC",sans-serif;background:#0f172a;color:#e2e8f0}
  .box{width:min(94vw,46rem)}
  h1{margin:0 0 .3rem;font-size:1.45rem;letter-spacing:.02em}
- .lede{margin:0 0 1.75rem;color:#94a3b8;font-size:.92rem}
+ .lede{margin:0 0 1.25rem;color:#94a3b8;font-size:.92rem}
+ .go{margin:0 0 1.5rem;padding:1rem 1.1rem;border-radius:14px;background:#1e293b;border:1px solid #334155}
+ .go label{display:block;margin-bottom:.5rem;color:#cbd5e1;font-size:.88rem}
+ .row{display:flex;gap:.5rem}
+ .row input{flex:1;min-width:0;padding:.6rem .75rem;border-radius:8px;border:1px solid #475569;
+            background:#0f172a;color:inherit;font:inherit;font-size:16px}
+ .row button{padding:.6rem 1.1rem;border:0;border-radius:8px;background:#2563eb;color:#fff;
+             font:inherit;font-weight:600;cursor:pointer;white-space:nowrap}
+ .row button:disabled{opacity:.6;cursor:progress}
+ .err{margin-top:.45rem;min-height:1.3em;color:#f87171;font-size:.85rem}
  .grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(17rem,1fr))}
  a.card{display:block;padding:1.4rem 1.5rem;border-radius:14px;text-decoration:none;
         background:#1e293b;color:inherit;border:1px solid #334155;
@@ -37,7 +50,17 @@
 <body>
 <div class="box">
   <h1>CCNA 200-301 考照練習</h1>
-  <p class="lede">兩份題庫各自獨立，各有各的密碼。選一份開始。</p>
+  <p class="lede">兩份題庫各自獨立，各有各的密碼。</p>
+
+  <!-- 按鈕預設 disabled、form 預設攔截：腳本接手之前按下去不會整頁重新載入 -->
+  <form class="go" id="gf" onsubmit="return false">
+    <label for="gp">直接輸入密碼，會帶你到對應的題庫</label>
+    <div class="row">
+      <input id="gp" type="password" autocomplete="current-password" placeholder="密碼">
+      <button id="gb" type="submit" disabled>載入中…</button>
+    </div>
+    <div class="err" id="ge"></div>
+  </form>
 
   <div class="grid">
     <a class="card" href="pcschool/pcschool-practice.html">
@@ -70,5 +93,43 @@
     解鎖狀態只留到分頁關閉；重新整理同一份不用再輸入，換另一份要輸入該份自己的密碼。
   </footer>
 </div>
+<script>
+/* 驗證票由部署腳本填入：{salt, iter, t:[{iv, d}]}。d 是 AES-GCM(「密文 ‖ 認證標籤」)，
+   明文是 {"u": 網址, "k": 解鎖狀態的 sessionStorage 鑰匙}。 */
+const T = {"salt":"rVr8c76CS7/I0IIz/q2lgA==","iter":600000,"t":[{"iv":"z7uC1V58ZQQ8s6yJ","d":"hMHUOHkjEWU2Lzz4+WI5yyg/RmRuwT3e9841GmTv/xbQfqLrkrTGrOWuufZfkJ+72BfTZSE5b4Uvvsgb"},{"iv":"nBj5EKQsut8MQIaH","d":"vWPVEjMhqFDtyhvTLJ0zIQVB5qDblx+hsEdIkhG/TXOZag4M+xkKGoP7iIbbS8d1CqmuhONkqjcm5DLlB+4PPaixZAuzFSP2D3cj"},{"iv":"9P4fSWdLZMJWmi86","d":"cmp1VbV47Q5FEPa5HkkztVtnuA8yU2oddHE+RW1A0SCOCkejUAVihC75b5tk5My7ij2R2F0+0UoFWQ=="},{"iv":"Mg8wIGxJeDQrAQJH","d":"0l5tTct8tC1YC6qbRzI84VjsdR/YZECtSjNKHXGzCUhsUOCqW56a4XyzewfWV7PS5gqsS/kPB5RneYdstrLKvGvGgwzRGoazvqv7IY4+9EXi"}]};
+const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+const f = document.getElementById("gf"), p = document.getElementById("gp"),
+      b = document.getElementById("gb"), e = document.getElementById("ge");
+
+/* 輸入的密碼只做一次 PBKDF2，再拿同一把金鑰逐張試解（AES-GCM 試解很便宜） */
+async function route(pw) {
+  const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(pw),
+                                             "PBKDF2", false, ["deriveKey"]);
+  const key = await crypto.subtle.deriveKey(
+    { name: "PBKDF2", salt: b64(T.salt), iterations: T.iter, hash: "SHA-256" },
+    base, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
+  for (const t of T.t) {
+    try {
+      const out = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(t.iv) }, key, b64(t.d));
+      return JSON.parse(new TextDecoder().decode(out));
+    } catch (err) { /* 不是這一張，換下一張 */ }
+  }
+  return null;
+}
+
+f.addEventListener("submit", async ev => {
+  ev.preventDefault();
+  if (!p.value) return;
+  if (!window.crypto || !crypto.subtle) { e.textContent = "這個瀏覽器不支援解密（需要 https）。"; return; }
+  b.disabled = true; e.textContent = "驗證中…";
+  const dest = await route(p.value).catch(() => null);
+  if (!dest) { b.disabled = false; e.textContent = "密碼不對。"; p.select(); return; }
+  /* 先替目的頁存好密碼：它一載入就讀這個鑰匙自動解鎖，不必再打一次 */
+  try { sessionStorage.setItem(dest.k, p.value); } catch (err) {}
+  location.href = dest.u;
+});
+if (T.t && T.t.length) { b.disabled = false; b.textContent = "進入"; }
+else { b.textContent = "未啟用"; }
+</script>
 </body>
 </html>
