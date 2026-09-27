@@ -96,7 +96,7 @@
 <script>
 /* 驗證票由部署腳本填入：{salt, iter, t:[{iv, d}]}。d 是 AES-GCM(「密文 ‖ 認證標籤」)，
    明文是 {"u": 網址, "k": 解鎖狀態的 sessionStorage 鑰匙}。 */
-const T = {"salt":"w26xzhY5ugJ0X58Fs4SqFQ==","iter":600000,"t":[{"iv":"TmaYGzI63RKmSf+0","d":"eEkf6k8+1oYuoYJYPFV59rvTyZi8AkVhe7GLHIR8lZopn5zlcbn+nDMaT9ZOWSEw2BXtOsX3RJkEPdFt6vlOpvfnNMBdv7yIRiYk"},{"iv":"nzRqsYsMZf+IKnq7","d":"AyTcyaBMvUEBSesw38/EIK+mVjwOcS51mmCR56Ncj2lz99ZyKxRNq1gBDPf4lyqrupen9ZrUycfwuA=="},{"iv":"Tu7/TI+Mxynftvuo","d":"Bfh3xeE706MNiCAWGMWx+u3a+r7elduGxjVZ2FET+/4IabuZFOFwTH/uubVCbWkIfTENuuZTPPMEvk21"},{"iv":"az/GvyMbQyX30LWi","d":"IsfrOOEK52Vkc/hFMWv/7Xf4JpU9GF67mTyfzaOyCZOE8X41g1lQnDdMHz1qu48OHts60ot6pfyghAYvlxrU3D6AWU+OC1Fy7D2hN+V2G9zo"}]};
+const T = {"salt":"wjEurtS6f1El1TwHgJDMgw==","iter":600000,"t":[{"iv":"JN00RQjyzm7Fv4G9","d":"h7oB+OYgBRCAeDlm+j9RXVIHpxCZwb2sA2hGVWXWEwxObkxxYB0niorUyz5TmUjLCrTEMmL1WmlwpkLu"},{"iv":"QAY0d6I+IAvI2EY/","d":"38eAV/Hixi0IZQMhLuWbdqLJVEXbayoy9XH2gxVvSfV1q81yb50oQqNdxguq4haLyPFDOkHCb7wDK5DJp0PkIEMULZ9si3ej+XrS"},{"iv":"sv0jUtEr1CIBLdpT","d":"AgHLuVGY4fJk9udGdENdPWcZNR+bJwVEOPSltdSJS0+1zWL4ukMwI/lN+hm9KrF5L7YixxfARrhQqg=="},{"iv":"npdURBK78gLQuexk","d":"jHh+NGZZQpP52/y4/MJzEfldd7kA3kBtuBd7VKOkWAOJmqHuQ5IO53VofGafD064xEo+S/vQ6rTu57JexNRO4rfuEEfjJDBVVV/T0PGwzVR0"}]};
 const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
 const f = document.getElementById("gf"), p = document.getElementById("gp"),
       b = document.getElementById("gb"), e = document.getElementById("ge");
